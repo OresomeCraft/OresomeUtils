@@ -108,5 +108,27 @@ public class Commands {
         }
     }
 
+    @Command(aliases = {"ptime"},
+            usage = "<Day/Night/Real>",
+            desc = "Set your local time.",
+            min = 1, max = 1)
+    @CommandPermissions({"oresomeutils.ptime"})
+    public void ptime(CommandContext args, CommandSender sender) throws CommandException {
+        Player p = (Player) sender;
+        if (args.getString(0).equalsIgnoreCase("day")) {
+            p.setPlayerTime(0L, false);
+            sender.sendMessage(ChatColor.DARK_AQUA + "Set local player time to day!");
+            sender.sendMessage(ChatColor.DARK_AQUA + "Use '/time real' to reset back to the server time!");
+        } else if (args.getString(0).equalsIgnoreCase("night")) {
+            p.setPlayerTime(14000L, false);
+            sender.sendMessage(ChatColor.DARK_AQUA + "Set local player time to night!");
+            sender.sendMessage(ChatColor.DARK_AQUA + "Use '/time real' to reset back to the server time!");
+        } else if (args.getString(0).equalsIgnoreCase("real")) {
+            p.resetPlayerTime();
+            sender.sendMessage(ChatColor.DARK_AQUA + "Set player time back to server time.");
+        } else {
+            sender.sendMessage(ChatColor.RED + "Invalid time! Args: day, night, real");
+        }
+    }
 
 }
