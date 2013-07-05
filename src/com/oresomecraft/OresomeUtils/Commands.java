@@ -1,13 +1,15 @@
 package com.oresomecraft.OresomeUtils;
 
 import com.sk89q.minecraft.util.commands.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Ocelot;
+import org.bukkit.entity.Player;
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.io.ByteArrayOutputStream;
@@ -23,6 +25,43 @@ public class Commands {
         plugin = pl;
     }
 
+    ArrayList<Player> report = new ArrayList<Player>();
+	@Command(aliases = {"report", "complain"},
+			min = 2,
+			desc = "Report a player",
+			usage = "<player> <reason>")
+	@CommandPermissions({"oresomeutils.report"})
+	public void complain(CommandContext args, CommandSender sender){
+		String message = args.getJoinedStrings(1);
+		String target = args.getString(0);
+		if(Bukkit.getPlayer(target) instanceof Player){
+			if(sender instanceof Player){
+				final Player pl = (Player)sender;
+				if(report.contains(pl)){
+					Bukkit.getConsoleSender().sendMessage(ChatColor.GOLD+"[Report] " + ChatColor.AQUA + sender.getName() + ChatColor.GOLD + " reports "
+							+ ChatColor.AQUA + target + ChatColor.GOLD + " for " + ChatColor.GREEN + message);
+					for(Player p : Bukkit.getOnlinePlayers()){
+						if(p.hasPermission("oresomeutils.modreport")){
+							p.sendMessage(ChatColor.GOLD+"[Report] " + ChatColor.AQUA + sender.getName() + ChatColor.GOLD + " reports "
+									+ ChatColor.AQUA + target + ChatColor.GOLD + " for " + ChatColor.GREEN + message);
+						}
+					}
+					report.add(pl);
+					Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable(){
+						public void run(){
+							report.remove(pl);
+						}
+					}, 10*20);
+				}else{
+					sender.sendMessage("Your report timer is still cooling down.");
+				}
+			}else{
+				sender.sendMessage(ChatColor.RED+"You are not an instance of a player.");
+			}
+		}else{
+			sender.sendMessage(ChatColor.RED + "That player is not online.");
+		}
+	}
     @Command(aliases = {"nearby"},
             usage = "/nearby",
             desc = "Get nearby players")
