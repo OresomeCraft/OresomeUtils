@@ -131,4 +131,33 @@ public class Commands {
         }
     }
 
+    @Command(aliases = {"tpall"},
+            usage = "/tpall",
+            desc = "Teleport all people on the server to your location")
+    @CommandPermissions({"oresomeutils.tpall"})
+    public void tpall(CommandContext args, CommandSender sender) throws CommandException {
+        Player p = (Player) sender;
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            pl.teleport(p.getLocation());
+        }
+        p.sendMessage(ChatColor.DARK_AQUA + "Teleported all online players to your location!");
+    }
+
+    @Command(aliases = {"tphere", "s"},
+            usage = "/tphere <Player>",
+            desc = "Teleport a player to you",
+            min = 1, max = 1)
+    @CommandPermissions({"oresomeutils.tphere"})
+    public void tphere(CommandContext args, CommandSender sender) throws CommandException {
+        Player p = (Player) sender;
+        if (Bukkit.getPlayer(args.getString(0)) != null) {
+            Player target = Bukkit.getPlayer(args.getString(0));
+            target.teleport(p.getLocation());
+            sender.sendMessage(ChatColor.DARK_AQUA + "Teleported player " + ChatColor.AQUA + target.getName()
+                    + ChatColor.DARK_AQUA + " to your location!");
+        } else {
+            sender.sendMessage(ChatColor.RED + "No player matched your query.");
+        }
+    }
+
 }
