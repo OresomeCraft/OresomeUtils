@@ -69,7 +69,7 @@ public class Commands {
         ChatColor GREEN = ChatColor.GREEN;
         ChatColor GOLD = ChatColor.GOLD;
 
-        if (args.argsLength() < 1) {
+        if (args.argsLength() > 1) {
             Bukkit.broadcastMessage(GOLD + "[Donator] " + AQUA + args.getString(0) + GREEN + " is now a Donator! Thanks for supporting us!");
         }
     }
