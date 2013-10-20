@@ -62,7 +62,7 @@ public class Commands {
 
     @Command(aliases = {"donatorbroadcast"},
             usage = "/donatorbroadcast",
-            desc = "donatorbroadcast!")
+            desc = "Broadcast a new Donator")
     @CommandPermissions({"oresomeutils.donatorbroadcast"})
     public void donatorbroadcast(CommandContext args, CommandSender sender) throws CommandException {
         ChatColor AQUA = ChatColor.AQUA;
@@ -76,7 +76,7 @@ public class Commands {
 
     @Command(aliases = {"sendall"},
             usage = "/sendall",
-            desc = "sendall!")
+            desc = "Send all players to another server")
     @CommandPermissions({"oresomeutils.sendall"})
     public void sendall(CommandContext args, CommandSender sender) throws CommandException {
         sender.sendMessage(ChatColor.GOLD + "Sent all users to server: " + args.getString(0));
@@ -93,8 +93,8 @@ public class Commands {
     }
 
     @Command(aliases = {"gc", "mem"},
-            usage = "/sendall",
-            desc = "sendall!")
+            usage = "/gc",
+            desc = "Show server resource statistics!")
     @CommandPermissions({"oresomeutils.gc"})
     public void gc(CommandContext args, CommandSender sender) throws CommandException {
         sender.sendMessage(ChatColor.DARK_AQUA + "Uptime: " + ChatColor.RED + EssUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime()));
