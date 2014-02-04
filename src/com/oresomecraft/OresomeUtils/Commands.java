@@ -159,5 +159,19 @@ public class Commands {
             sender.sendMessage(ChatColor.RED + "No player matched your query.");
         }
     }
+    
+    @Command(aliases = {"kickall"},
+            usage = "/kickall",
+            desc = "Kicks all online players",
+            min = 1, max = 1)
+    @CommandPermissions({"oresomeutils.kickall"})
+    public void tphere(CommandContext args, CommandSender sender) throws CommandException {
+        Player p = (Player) sender;
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            player.kickPlayer(ChatColor.DARK_AQUA + "Kicked: " + ChatColor.AQUA + args.getString(0));
+        } else {
+            sender.sendMessage(ChatColor.RED + "You must include a reason to kick all.");
+        }
+    }
 
 }
